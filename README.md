@@ -71,10 +71,22 @@ It is designed to answer **medical domain questions** across various categories 
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-model = AutoModelForCausalLM.from_pretrained("Arushp1/llama3-medquad-qlora")
-tokenizer = AutoTokenizer.from_pretrained("Arushp1/llama3-medquad-qlora")
+from peft import PeftModel
 
-pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+base_model = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", device_map="auto")
+model = PeftModel.from_pretrained(base_model, "Arushp1/llama3-medquad-qlora")
+
+
+pipe = pipeline(
+    "text-generation",
+    model=model,
+    tokenizer=tokenizer,
+    device_map="auto",
+    torch_dtype=torch.bfloat16,
+    max_new_tokens=256,
+    do_sample=False  # deterministic outputs for evaluation
+)
+
 
 query = "What are the symptoms of asthma?"
 print(pipe(query, max_new_tokens=100))
