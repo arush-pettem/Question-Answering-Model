@@ -67,12 +67,12 @@ It is designed to answer **medical domain questions** across various categories 
 ---
 
 ## How to Get Started with the Model
+'''https://huggingface.co/Arushp1/llama3-medquad-qlora'''
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-
-model = AutoModelForCausalLM.from_pretrained("your-username/llama3-medquad-qlora")
-tokenizer = AutoTokenizer.from_pretrained("your-username/llama3-medquad-qlora")
+model = AutoModelForCausalLM.from_pretrained("Arushp1/llama3-medquad-qlora")
+tokenizer = AutoTokenizer.from_pretrained("Arushp1/llama3-medquad-qlora")
 
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
 
